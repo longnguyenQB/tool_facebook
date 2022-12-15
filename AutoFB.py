@@ -94,7 +94,7 @@ class AutoFB:
 
     def add_friends(self, urls):
         s = 0
-        it = random.choice(range(1, 5))
+        it = random.choice(range(3, 5))
         random.shuffle(urls)
         while s != it:
             url = urls[s]
@@ -120,17 +120,19 @@ class AutoFB:
             sleep_short()
             elements = self.driver.find_elements(
                 By.XPATH, '//*[@aria-label="Thêm bạn bè"]')
+            num_add = 0
             for elem in elements:
                 try:
                     elem.click()
+                    num_add += 1
+                    print(f'Đã kết bạn với {num_add} người')
                 except:
                     pass
                 sleep_short()
             urls.remove(url)
-            return urls
+        return urls
 
-
-f = open("./url_fb/url_beauty.json", encoding="utf8")
+f = open("./url_fb/url_LT.json", encoding="utf8")
 data = json.load(f)
 profile_name = [
     'Profile 3', 'Profile 5', 'Profile 6', 'Profile 7', 'Profile 8',
@@ -145,7 +147,7 @@ for profile in profile_name:
     time.sleep(4)
     actions = [
         'story', 'post', 'addfriend', 'post', 'story', 'story', 'post',
-        'addfriend'
+        'addfriend','addfriend'
     ]
     random.shuffle(actions)
     for action in actions:

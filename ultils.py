@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from facebook_scraper import get_posts
 import time
 import random
@@ -8,9 +10,9 @@ import re
 
 def launchBrowser(profile_name):
     chrome_options = Options()
-    chrome_options.add_argument("user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data")
-    # chrome_options.add_argument(
-    #     "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
+    # chrome_options.add_argument("user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data")
+    chrome_options.add_argument(
+        "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_experimental_option("detach", True)
     chrome_options.add_argument("--profile-directory=" + profile_name)
@@ -61,3 +63,15 @@ def get_comment_from_post(post_url, cookies_profile):
         if not re.search(pattern1, comment.lower())
     ]
     return list_comment
+
+def check_dialog(driver):
+    try:
+        driver.switch_to.active_element
+        element = driver.find_element(
+                By.XPATH, '//div[@role="dialog"]')
+        time.sleep(2)
+        element.send_keys(Keys.ESCAPE)
+        time.sleep(2)
+        print('Bỏ qua dialog')
+    except:
+        pass
