@@ -103,7 +103,7 @@ class AutoFB:
         it = random.choice(range(3, 5))
         random.shuffle(urls)
         num_add = 0
-        while s != it:
+        while (s != it) & urls:
             url = urls[s]
             s += 1
             print('Đã vào link: ', url)
@@ -136,7 +136,7 @@ class AutoFB:
                     pass
                 sleep_short()
             urls.remove(url)
-        return urls, num_add
+        return urls, num_add, it
 
 f = open("./url_fb/url_LT.json", encoding="utf8")
 data = json.load(f)
@@ -164,6 +164,7 @@ for profile in profile_name:
     num_addfriends = 0
     num_watch_posts = 0
     num_watch_storys = 0
+    num_get_urls = 0
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
@@ -175,10 +176,13 @@ for profile in profile_name:
             num_watch_post = auto.watch_post()
             num_watch_posts += num_watch_post
         elif action == 'addfriend':
-            urls , num_add = auto.add_friends(urls)
+            urls , num_add , num_get_url= auto.add_friends(urls)
             num_addfriends += num_add
+            num_get_urls += num_get_url
         sleep_very_very_long()
     print(f'Đã kết bạn với {num_addfriends} người')
+    print(f'Đã vào {num_get_urls} link')
     print(f'Đã xem {num_watch_posts} post')
+    print(f'Đã xem {num_watch_story} stories')
     print('Thời gian chạy: ' , (time.time() - start_time)/60)
     driver.close()
