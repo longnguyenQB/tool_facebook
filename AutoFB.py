@@ -27,7 +27,8 @@ class AutoFB:
         ).click()
         tmp = 0
         #Chọn xem bao nhiêu story:
-        for _ in range(random.choice(range(3, 8))):
+        num_watch_story = random.choice(range(3, 8))
+        for _ in range(num_watch_story):
             tmp += 1
             print('_____________', tmp)
             if random.choice(['reaction', 'no']) == 'reaction':
@@ -52,13 +53,15 @@ class AutoFB:
                     By.XPATH, '//div[@aria-label="Thẻ tiếp theo"]').click()
                 sleep_short()
         self.driver.get("http://www.facebook.com/")
+        return num_watch_story
 
     def watch_post(self):
         self.driver.get("http://www.facebook.com/")
         sleep_long()
         element = self.driver.find_element(By.TAG_NAME, "body")
         # Chọn số lần xem post
-        for i in range(0, random.choice(range(10, 20))):
+        num_watch_post = random.choice(range(15, 20))
+        for i in range(0, num_watch_post):
             reaction = random.choice(['reaction', 'no'])
             comment = random.choice(['comment', 'no', '1', '2', '3'])
             open_post = random.choice(['open', 'no'])
@@ -94,11 +97,12 @@ class AutoFB:
                 print('no action')
                 element.send_keys(Keys.ESCAPE +
                                   "j" * random.choice(range(1, 4)))
-
+        return num_watch_post
     def add_friends(self, urls):
         s = 0
         it = random.choice(range(3, 5))
         random.shuffle(urls)
+        num_add = 0
         while s != it:
             url = urls[s]
             s += 1
@@ -123,7 +127,6 @@ class AutoFB:
             sleep_short()
             elements = self.driver.find_elements(
                 By.XPATH, '//*[@aria-label="Thêm bạn bè"]')
-            num_add = 0
             for elem in elements:
                 try:
                     elem.click()
@@ -133,16 +136,20 @@ class AutoFB:
                     pass
                 sleep_short()
             urls.remove(url)
-        return urls
+        return urls, num_add
 
 f = open("./url_fb/url_LT.json", encoding="utf8")
 data = json.load(f)
+# profile_name = [
+#     'Profile 3', 'Profile 5', 'Profile 6', 'Profile 7', 'Profile 8',
+#     'Profile 10', 'Profile 11', 'Profile 12', 'Default'
+# ]
 profile_name = [
-    'Profile 3', 'Profile 5', 'Profile 6', 'Profile 7', 'Profile 8',
-    'Profile 10', 'Profile 11', 'Profile 12', 'Default'
+    'Profile 3', 'Profile 5', 'Profile 6',  'Profile 8'
 ]
 random.shuffle(profile_name)
 for profile in profile_name:
+    start_time = time.time()
     urls = list(data.values())
     print('*************************' * 20 + "\n" + str(profile))
     auto = AutoFB(profile)
@@ -153,15 +160,25 @@ for profile in profile_name:
         'addfriend','addfriend'
     ]
     random.shuffle(actions)
+    actions = ['post'] + actions
+    num_addfriends = 0
+    num_watch_posts = 0
+    num_watch_storys = 0
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
         # action = 'addfriend'
         if action == 'story':
-            auto.watch_story()
+            num_watch_story = auto.watch_story()
+            num_watch_storys += num_watch_story
         elif action == 'post':
-            auto.watch_post()
+            num_watch_post = auto.watch_post()
+            num_watch_posts += num_watch_post
         elif action == 'addfriend':
-            urls = auto.add_friends(urls)
-        sleep_very_long()
+            urls , num_add = auto.add_friends(urls)
+            num_addfriends += num_add
+        sleep_very_very_long()
+    print(f'Đã kết bạn với {num_addfriends} người')
+    print(f'Đã xem {num_watch_posts} post')
+    print('Thời gian chạy: ' , (time.time() - start_time)/60)
     driver.close()

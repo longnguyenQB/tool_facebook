@@ -1,0 +1,10 @@
+.facebook.com	TRUE	/login/device-based/	TRUE	1704895937	dbln	%7B%22100088036454710%22%3A%22d9QAitEd%22%7D
+.facebook.com	TRUE	/	TRUE	1704895849	datr	bU2PY4UHJX1kr_IrrNsrKnye
+.facebook.com	TRUE	/	TRUE	1704895885	sb	bU2PY-yUcxJaFM7vu--r5E2g
+.facebook.com	TRUE	/	TRUE	1701871882	c_user	100088036454710
+.facebook.com	TRUE	/	TRUE	1701871882	xs	8%3Azil17SkI782OTg%3A2%3A1670335888%3A-1%3A7862
+.facebook.com	TRUE	/	TRUE	1678111885	m_page_voice	100088036454710
+.facebook.com	TRUE	/	TRUE	1671682770	dpr	1.25
+.facebook.com	TRUE	/	TRUE	1678853965	fr	0UvlPoJ2uo25gStLw.AWXG7Tk_BE-OhNjytbBnQuapyuE.Bjj01t.WP.AAA.0.0.BjmqBV.AWX7mJ9P6xA
+.facebook.com	TRUE	/	TRUE	1671682771	wd	1536x746
+.facebook.com	TRUE	/	TRUE	0	presence	C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1671077974064%2C%22v%22%3A1%7D

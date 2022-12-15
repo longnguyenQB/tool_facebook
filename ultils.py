@@ -8,18 +8,22 @@ import random
 import numpy
 import re
 
+
 def launchBrowser(profile_name):
     chrome_options = Options()
-    # chrome_options.add_argument("user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data")
     chrome_options.add_argument(
-        "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
+        "user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data"
+    )
+    # chrome_options.add_argument(
+    #     "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_experimental_option("detach", True)
-    chrome_options.add_argument("--profile-directory=" + profile_name)
+    chrome_options.add_argument("--profile-directory=" + profile_name )
     chrome_options.add_argument("--window-size=500,500")
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get("http://www.facebook.com/")
     return driver
+
 
 def choice_reaction():
     list_reaction = ['Thích', 'Yêu thích', 'Thương thương']
@@ -41,6 +45,8 @@ def sleep_long():
 def sleep_very_long():
     return time.sleep(random.choice(range(8, 20)))
 
+def sleep_very_very_long():
+    return time.sleep(random.choice(range(20, 60)))
 
 def get_comment_from_post(post_url, cookies_profile):
     post_list = []
@@ -64,11 +70,11 @@ def get_comment_from_post(post_url, cookies_profile):
     ]
     return list_comment
 
+
 def check_dialog(driver):
     try:
         driver.switch_to.active_element
-        element = driver.find_element(
-                By.XPATH, '//div[@role="dialog"]')
+        element = driver.find_element(By.XPATH, '//div[@role="dialog"]')
         time.sleep(2)
         element.send_keys(Keys.ESCAPE)
         time.sleep(2)
