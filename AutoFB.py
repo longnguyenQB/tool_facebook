@@ -67,6 +67,9 @@ class AutoFB:
             if (reaction == 'reaction') & (comment == 'comment') & (open_post
                                                                     == 'open'):
                 # element1 = driver.switch_to.active_element
+                # Func = open("tmp.html", "w", encoding="utf-8")
+                # Func.write(element1.get_attribute('innerHTML'))
+                # Func.close()
                 print('reaction + comment + open post')
                 element.send_keys(Keys.ESCAPE + "j" + 'l' + Keys.ARROW_RIGHT *
                                   random.choice(range(1, 3)) + Keys.ENTER +
