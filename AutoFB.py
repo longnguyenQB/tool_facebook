@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 from ultils import *
 import time
 import random
@@ -42,6 +43,7 @@ class AutoFB:
                             By.XPATH,
                             '//div[@aria-label="' + reaction + '"]').click()
                     except:
+                        print("Không tìm được element thả reaction")
                         pass
             sleep_short()
             try:
@@ -98,45 +100,73 @@ class AutoFB:
                 element.send_keys(Keys.ESCAPE +
                                   "j" * random.choice(range(1, 4)))
         return num_watch_post
+
     def add_friends(self, urls):
         s = 0
         it = random.choice(range(3, 5))
         random.shuffle(urls)
         num_add = 0
-        while (s != it) & urls:
+        print(s, it, len(urls))
+        while (s <= it):
             url = urls[s]
             s += 1
+            print(s)
             print('Đã vào link: ', url)
             self.driver.get(url)
             sleep_very_long()
             element = self.driver.find_element(By.TAG_NAME, "body")
+            sleep_short()
             element.send_keys("j")
+            sleep_short()
             try:
-                self.driver.find_element(
+                elements_list_reactions = self.driver.find_elements(
                     By.XPATH,
                     '//div[@class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x1n2onr6 x87ps6o x1lku1pv x1a2a7pz x1heor9g xnl1qt8 x6ikm8r x10wlt62 x1vjfegm x1lliihq"]'
-                ).click()
+                )
             except:
                 try:
-                    self.driver.find_element(
+                    elements_list_reactions = self.driver.find_elements(
                         By.XPATH,
                         '//div[@class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x1n2onr6 x87ps6o x1lku1pv x1a2a7pz x1heor9g xnl1qt8 x6ikm8r x10wlt62 x1vjfegm x78zum5"]'
-                    ).click()
+                    )
                 except:
+                    print("Không tìm được element hiển thị những người reaction")
                     pass
-            sleep_short()
-            elements = self.driver.find_elements(
-                By.XPATH, '//*[@aria-label="Thêm bạn bè"]')
-            for elem in elements:
+            print('Số lượng elements_list_reactions: ',
+                  len(elements_list_reactions))
+            for elements_list_reaction in elements_list_reactions:
                 try:
-                    elem.click()
-                    num_add += 1
-                    print(f'Đã kết bạn với {num_add} người')
+                    elements_list_reaction.click()
+                    sleep_short()
+                    # action_scroll = self.driver.switch_to.active_element   
                 except:
+                    print("Không click vào được element hiển thị những người reaction")
                     pass
-                sleep_short()
-            urls.remove(url)
+                sleep_long()
+                elements_add = self.driver.find_elements(
+                    By.XPATH, '//*[@aria-label="Thêm bạn bè"]')
+                for elem in elements_add:
+                    try:
+                        elem.click()
+                        num_add += 1
+                        print(f'Đã kết bạn với {num_add} người')
+                    except:
+                        elem.send_keys(Keys.ESCAPE)
+                        print("Không click vào được element Thêm bạn bè")
+                        pass
+                    sleep_short()
+                if len(elements_add) < 20:
+                    print("Lướt thêm bài tiếp")
+                    element_scroll = self.driver.switch_to.active_element
+                    element_scroll.send_keys(Keys.ESCAPE)
+                else:
+                    break
+            try:
+                urls.remove(url)
+            except:
+                break
         return urls, num_add, it
+
 
 f = open("./url_fb/url_LT.json", encoding="utf8")
 data = json.load(f)
@@ -144,9 +174,7 @@ data = json.load(f)
 #     'Profile 3', 'Profile 5', 'Profile 6', 'Profile 7', 'Profile 8',
 #     'Profile 10', 'Profile 11', 'Profile 12', 'Default'
 # ]
-profile_name = [
-    'Profile 3', 'Profile 5', 'Profile 6',  'Profile 8'
-]
+profile_name = ['Profile 3', 'Profile 5', 'Profile 6', 'Profile 8']
 random.shuffle(profile_name)
 for profile in profile_name:
     start_time = time.time()
@@ -159,6 +187,7 @@ for profile in profile_name:
         'story', 'post', 'addfriend', 'post', 'story', 'story', 'post',
         'addfriend','addfriend'
     ]
+    # actions = ['addfriend', 'addfriend', 'addfriend']
     random.shuffle(actions)
     actions = ['post'] + actions
     num_addfriends = 0
@@ -176,13 +205,13 @@ for profile in profile_name:
             num_watch_post = auto.watch_post()
             num_watch_posts += num_watch_post
         elif action == 'addfriend':
-            urls , num_add , num_get_url= auto.add_friends(urls)
+            urls, num_add, num_get_url = auto.add_friends(urls)
             num_addfriends += num_add
             num_get_urls += num_get_url
         sleep_very_very_long()
     print(f'Đã kết bạn với {num_addfriends} người')
     print(f'Đã vào {num_get_urls} link')
     print(f'Đã xem {num_watch_posts} post')
-    print(f'Đã xem {num_watch_story} stories')
-    print('Thời gian chạy: ' , (time.time() - start_time)/60)
+    print(f'Đã xem {num_watch_storys} stories')
+    print('Thời gian chạy: ', (time.time() - start_time) / 60)
     driver.close()
