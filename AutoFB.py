@@ -117,7 +117,7 @@ class AutoFB:
             element = self.driver.find_element(By.TAG_NAME, "body")
             sleep_short()
             element.send_keys("j")
-            sleep_short()
+            sleep_long()
             try:
                 elements_list_reactions = self.driver.find_elements(
                     By.XPATH,
@@ -130,7 +130,8 @@ class AutoFB:
                         '//div[@class="x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x1n2onr6 x87ps6o x1lku1pv x1a2a7pz x1heor9g xnl1qt8 x6ikm8r x10wlt62 x1vjfegm x78zum5"]'
                     )
                 except:
-                    print("Không tìm được element hiển thị những người reaction")
+                    print(
+                        "Không tìm được element hiển thị những người reaction")
                     pass
             print('Số lượng elements_list_reactions: ',
                   len(elements_list_reactions))
@@ -138,29 +139,33 @@ class AutoFB:
                 try:
                     elements_list_reaction.click()
                     sleep_short()
-                    # action_scroll = self.driver.switch_to.active_element   
+                    elements_add = self.driver.find_elements(
+                        By.XPATH, '//*[@aria-label="Thêm bạn bè"]')
+                    print("Số lượng elements thêm bạn bè tìm được: ",
+                          len(elements_add))
+                    for elem in elements_add:
+                        try:
+                            elem.click()
+                            num_add += 1
+                            print(f'Đã kết bạn với {num_add} người')
+                        except:
+                            element_notclick = driver.switch_to.active_element
+                            element_notclick.send_keys(Keys.ESCAPE)
+                            print("Không click vào được element Thêm bạn bè")
+                            pass
+                        sleep_short()
+                    if len(elements_add) < 20:
+                        print("Lướt thêm bài tiếp")
+                        element_scroll = self.driver.switch_to.active_element
+                        element_scroll.send_keys(Keys.ESCAPE)
+                    else:
+                        break
+                    # action_scroll = self.driver.switch_to.active_element
                 except:
-                    print("Không click vào được element hiển thị những người reaction")
+                    print(
+                        "Không click vào được element hiển thị những người reaction"
+                    )
                     pass
-                sleep_long()
-                elements_add = self.driver.find_elements(
-                    By.XPATH, '//*[@aria-label="Thêm bạn bè"]')
-                for elem in elements_add:
-                    try:
-                        elem.click()
-                        num_add += 1
-                        print(f'Đã kết bạn với {num_add} người')
-                    except:
-                        elem.send_keys(Keys.ESCAPE)
-                        print("Không click vào được element Thêm bạn bè")
-                        pass
-                    sleep_short()
-                if len(elements_add) < 20:
-                    print("Lướt thêm bài tiếp")
-                    element_scroll = self.driver.switch_to.active_element
-                    element_scroll.send_keys(Keys.ESCAPE)
-                else:
-                    break
             try:
                 urls.remove(url)
             except:
@@ -185,7 +190,7 @@ for profile in profile_name:
     time.sleep(4)
     actions = [
         'story', 'post', 'addfriend', 'post', 'story', 'story', 'post',
-        'addfriend','addfriend'
+        'addfriend', 'addfriend'
     ]
     # actions = ['addfriend', 'addfriend', 'addfriend']
     random.shuffle(actions)
@@ -197,7 +202,7 @@ for profile in profile_name:
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
-        # action = 'addfriend'
+        action = 'addfriend'
         if action == 'story':
             num_watch_story = auto.watch_story()
             num_watch_storys += num_watch_story
