@@ -106,8 +106,9 @@ class AutoFB:
         it = random.choice(range(3, 5))
         random.shuffle(urls)
         num_add = 0
-        print(s, it, len(urls))
-        while (s <= it):
+        while (s <= it) & (s <= len(urls)):
+            if s > len(urls):
+                break
             url = urls[s]
             s += 1
             print(s)
@@ -166,10 +167,8 @@ class AutoFB:
                         "Không click vào được element hiển thị những người reaction"
                     )
                     pass
-            try:
-                urls.remove(url)
-            except:
-                break
+            urls.remove(url)
+
         return urls, num_add, it
 
 

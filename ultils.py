@@ -19,7 +19,7 @@ def launchBrowser(profile_name):
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_experimental_option("detach", True)
     chrome_options.add_argument("--profile-directory=" + profile_name )
-    chrome_options.add_argument("--window-size=500,500")
+    chrome_options.add_argument("--window-size=700,700")
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get("http://www.facebook.com/")
     return driver

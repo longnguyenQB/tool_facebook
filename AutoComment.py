@@ -96,10 +96,13 @@ profile_name = [
 # random.shuffle(profile_name)
 # comments = get_comment_from_post(post_url=link_source,
 #                                  cookies_profile=cookies_profile)
-comments = ['Vãi ma =))', 'Hôm nay t cũng bị ma nhập tiếp']
+
+with open('./comment_sample.txt', 'r', encoding="utf8") as f:
+        comments = [word[:-1] for word in f]
+        
+# comments = ['Vãi ma =))', 'Hôm nay t cũng bị ma nhập tiếp']
 for profile in profile_name:
     print('*************************' * 20 + "\n" + str(profile))
-    print('test', profile[0])
     auto = AutoSeedingPostDetail(profile)
     driver = auto.open_profile()
     time.sleep(4)
