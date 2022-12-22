@@ -127,32 +127,32 @@ class AutoFB:
             sleep_short()
             elements_post = self.driver.find_elements(By.XPATH,
                                                       '//div[@class="_1g06"]')
-            for post in elements_post:
-                post.click()
-                sleep_short()
-                self.driver.find_element(By.XPATH,
-                                         '//div[@class="_1g06"]').click()
-                sleep_short()
-                while self.driver.find_element(By.XPATH,
-                                         '//div[@class="title mfsm fcl"]') :
+            elements_post[0].click()
+            sleep_short()
+            self.driver.find_element(By.XPATH,
+                                        '//div[@class="_1g06"]').click()
+            sleep_short()
+            for _ in range(10):
+                try:
                     self.driver.find_element(By.XPATH,
-                                         '//div[@class="title mfsm fcl"]').click()
-                    
-                self.driver.execute_script(
-                    "document.getElementsByClassName('_54k8 _52jg _56bs _26vk _8yzt _56bu')[0];"
-                )
-                elements_addfriend = self.driver.find_elements(By.XPATH,
-                                                      '//button[@class="_54k8 _52jg _56bs _26vk _8yzt _56bu"]')
-                sleep_short()
-                print(len(elements_addfriend))
-                for element_addfriend in elements_addfriend:
-                    try:
-                        element_addfriend.click()
-                        sleep_short()
-                        num_add += 1
-                        print(num_add)
-                    except:
-                        pass
+                                        '//div[@class="title mfsm fcl"]').click()
+                except:
+                    pass
+            self.driver.execute_script(
+                "document.getElementsByClassName('_54k8 _52jg _56bs _26vk _8yzt _56bu')[0];"
+            )
+            elements_addfriend = self.driver.find_elements(By.XPATH,
+                                                    '//button[@class="_54k8 _52jg _56bs _26vk _8yzt _56bu"]')
+            sleep_short()
+            print(len(elements_addfriend))
+            for element_addfriend in elements_addfriend:
+                try:
+                    element_addfriend.click()
+                    sleep_short()
+                    num_add += 1
+                    print(f"Đã kết bạn với {num_add} người")
+                except:
+                    pass
             urls.remove(url)
         return urls, num_add, it
 
