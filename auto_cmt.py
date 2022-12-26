@@ -15,11 +15,11 @@ import time
 f = open("./url_fb/url_LT.json", encoding="utf8")
 url_LT = json.load(f)
 link_seedings = list(url_LT.values())
-link_seedings = ['https://touch.facebook.com/groups/genzlethuy/posts/1099538864049233']
+link_seedings = ['https://touch.facebook.com/groups/trongnhangoaipholethuy/posts/1279780325912391/']
 
 with open('./comment_sample.txt', 'r', encoding="utf8") as f:
         comments = [word[:-1] for word in f]
-image_url = "C:/Users/GroooDev/Desktop/meme/2f1a895b81fafd8c9f6f1a5848f08a5310-diem-khanh-banh-khoe-10-ngon-tay.jpg"
+image_url = "C:/Users/ADMIN/OneDrive/Máy tính/meme/88230741_1117999938538614_7524874619187101696_n.jpg"
 # Get account clone
 f = open("./acc_clone/acc_clone.json", encoding="utf8")
 profile = json.load(f)
@@ -37,5 +37,5 @@ for key in profile.keys():
     time.sleep(4)
     for link_seeding in link_seedings:
         comments = auto.comment_post(link_seeding, comments, image_url)
-        time.sleep(random.choice(range(200,300)))
-        driver.close()
+    time.sleep(random.choice(range(200,300)))
+    driver.close()

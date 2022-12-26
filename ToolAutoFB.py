@@ -172,22 +172,26 @@ class AutoSeedingPostDetail:
         self.driver.get(link_seeding)
         time.sleep(2)
         # Like:
-        self.driver.find_element(
-            By.XPATH, '//a[@class="_15ko _77li touchable"]').click()
+        try:
+            self.driver.find_element(
+                By.XPATH, '//a[@class="_15ko _77li touchable"]').click()
+            print("Đã like post")
+        except:
+            pass
         sleep_long()
-        # Move to comment:
-        self.driver.find_element(
-            By.XPATH, '/html/body/div[1]/div/div[4]/div/div[1]/div/div/footer/div/div/div[2]/a').click()
-        sleep_long()
+        # # Move to comment:
+        # self.driver.find_element(
+        #     By.XPATH, '/html/body/div[1]/div/div[4]/div/div[1]/div/div/footer/div/div/div[2]/a').click()
+        # sleep_long()
         # Image
         if len(image_url) != 0:
             try:
                 self.driver.find_element(
-                    By.XPATH, '//a[@class="_5ecn"]').send_keys(image_url)
+                    By.XPATH, '//input[@type="file"]').send_keys(image_url)
                 sleep_very_long()
             except:
                 self.driver.find_element(
-                    By.XPATH, '//a[@class="_5s61 _2pii"]').send_keys(image_url)
+                    By.XPATH, '//div[@class="_5s61 _2pii"]').send_keys(image_url)
                 sleep_very_long()
         try:
             comment_box = WebDriverWait(self.driver, 5).until(
@@ -205,9 +209,14 @@ class AutoSeedingPostDetail:
         print(comment)
         comment_box.click()
         sleep_very_short()
-        comment_box.send_keys(" " + comment + Keys.ENTER)
+        comment_box.send_keys(comment)
+        sleep_short()
+        WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//button[@type="submit"]'))).click()
+        sleep_short()
+            
         check_dialog(self.driver)
-        comments.remove(comment)
         return comments
 
     def logout_fb(self):

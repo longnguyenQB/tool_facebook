@@ -11,11 +11,11 @@ import re
 
 def launchBrowser():
     chrome_options = Options()
-    chrome_options.add_argument(
-        "user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data"
-    )
     # chrome_options.add_argument(
-    #     "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
+    #     "user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data"
+    # )
+    chrome_options.add_argument(
+        "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_experimental_option("detach", True)
     chrome_options.add_argument("--incognito")
@@ -33,9 +33,13 @@ def login(driver, username, password):
     driver.find_element(By.XPATH,
                         '//input[@id="m_login_password"]').send_keys(password)
     sleep_short()
-    driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
+    try:
+        driver.find_element(By.XPATH, '//button[@value="Đăng nhập"]').click()
+    except:
+        driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
     sleep_long()
     driver.get("https://touch.facebook.com/")
+    print("Đã login vào facebook")
 
 
 def logout(driver):
