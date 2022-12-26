@@ -9,7 +9,7 @@ import numpy
 import re
 
 
-def launchBrowser(profile_name):
+def launchBrowser():
     chrome_options = Options()
     chrome_options.add_argument(
         "user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data"
@@ -18,6 +18,7 @@ def launchBrowser(profile_name):
     #     "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_experimental_option("detach", True)
+    chrome_options.add_argument("--incognito")
     # chrome_options.add_argument("--profile-directory=" + profile_name )
     chrome_options.add_argument("--window-size=700,700")
     driver = webdriver.Chrome(chrome_options=chrome_options)

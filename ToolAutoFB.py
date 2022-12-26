@@ -10,24 +10,27 @@ import json
 
 
 class AutoFB:
-    def __init__(self, profile_name):
+    def __init__(self, username, password):
         super().__init__()
-        self.profile_name = profile_name
+        self.username = username
+        self.password = password
 
     def open_profile(self):
-        profile = launchBrowser(self.profile_name)
+        profile = launchBrowser()
         self.driver = profile
         return self.driver
 
-    def login(self, username, password):
+    def login(self):
         self.driver.find_element(
-            By.XPATH, '//input[@id="m_login_email"]').send_keys(username)
+            By.XPATH, '//input[@id="m_login_email"]').send_keys(self.username)
         sleep_short()
-        self.driver.find_element(
-            By.XPATH, '//input[@id="m_login_password"]').send_keys(password)
+        self.driver.find_element(By.XPATH,
+                                 '//input[@id="m_login_password"]').send_keys(
+                                     self.password)
         sleep_short()
         self.driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
         sleep_long()
+        self.driver.get("https://touch.facebook.com/")
 
     def watch_story(self):
         self.driver.get("https://facebook.com/")
@@ -129,20 +132,20 @@ class AutoFB:
                                                       '//div[@class="_1g06"]')
             elements_post[0].click()
             sleep_short()
-            self.driver.find_element(By.XPATH,
-                                        '//div[@class="_1g06"]').click()
+            self.driver.find_element(By.XPATH, '//div[@class="_1g06"]').click()
             sleep_short()
             for _ in range(10):
                 try:
-                    self.driver.find_element(By.XPATH,
-                                        '//div[@class="title mfsm fcl"]').click()
+                    self.driver.find_element(
+                        By.XPATH, '//div[@class="title mfsm fcl"]').click()
                 except:
                     pass
             self.driver.execute_script(
                 "document.getElementsByClassName('_54k8 _52jg _56bs _26vk _8yzt _56bu')[0];"
             )
-            elements_addfriend = self.driver.find_elements(By.XPATH,
-                                                    '//button[@class="_54k8 _52jg _56bs _26vk _8yzt _56bu"]')
+            elements_addfriend = self.driver.find_elements(
+                By.XPATH,
+                '//button[@class="_54k8 _52jg _56bs _26vk _8yzt _56bu"]')
             sleep_short()
             print(len(elements_addfriend))
             for element_addfriend in elements_addfriend:
@@ -156,51 +159,59 @@ class AutoFB:
             urls.remove(url)
         return urls, num_add, it
 
+    def logout(self):
+        self.driver.find_element(
+            By.XPATH,
+            '//div[@class="_59te jewel _hzb noCount _4wrj"]').click()
+        sleep_short()
+        self.driver.find_element(
+            By.XPATH,
+            '/html/body/div[1]/div/div[4]/div/div/div/div[5]/a/div').click()
+        try:
+            self.driver.find_element(
+                By.XPATH,
+                '/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/div/a[1]/div/div[2]'
+            ).click()
+            print("Đã log out!")
+        except:
+            pass
+
 
 class AutoSeedingPostDetail:
-    def __init__(self, profile_name):
+    def __init__(self, username, password, link_seeding):
         super().__init__()
-        self.profile_name = profile_name
+        self.username = username
+        self.password = password
+        self.link_seeding = link_seeding
 
     def open_profile(self):
-        profile = launchBrowser(self.profile_name)
+        profile = launchBrowser()
         self.driver = profile
         return self.driver
 
-    def comment_post(self, comments, link_seeding):
-        self.driver.get(link_seeding)
-        time.sleep(2)
-        #like:
-        try:
-            element_click_and_hold = self.driver.find_element(
-                By.XPATH, '//div[@aria-label="Bày tỏ cảm xúc"]')
-            action = ActionChains(self.driver)
-            action.click_and_hold(element_click_and_hold)
-            action.perform()
-            time.sleep(1)
-            reaction = choice_reaction()
-            self.driver.find_element(By.XPATH, '//div[@aria-label="' +
-                                     reaction + '"]').click()
-            print('Đã reaction')
-        except:
-            try:
-                element_click_and_hold = self.driver.find_element(
-                    By.XPATH, '//div[@aria-label="Thích"]')
-                action = ActionChains(self.driver)
-                action.click_and_hold(element_click_and_hold)
-                action.perform()
-                time.sleep(1)
-                reaction = choice_reaction()
-                self.driver.find_element(
-                    By.XPATH, '//div[@aria-label="' + reaction + '"]').click()
-                print('Đã reaction')
-            except:
-                pass
-
+    def login(self):
+        self.driver.find_element(
+            By.XPATH, '//input[@id="m_login_email"]').send_keys(self.username)
+        sleep_short()
+        self.driver.find_element(By.XPATH,
+                                 '//input[@id="m_login_password"]').send_keys(
+                                     self.password)
+        sleep_short()
+        self.driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
         sleep_long()
-        check_dialog(self.driver)
-        # comment_box = self.driver.find_element(
-        #     By.XPATH, '//div[@aria-label="Viết bình luận"]')
+        self.driver.get("https://touch.facebook.com/")
+
+    def comment_post(self, comments, image_url):
+        self.driver.get(self.link_seeding)
+        time.sleep(2)
+        # Like:
+        self.driver.find_element(By.XPATH, '//a[@class="_15ko _77li touchable"]').click()
+        sleep_long()
+        if len(image) != 0:
+            self.driver.find_element(By.XPATH, '//a[@class="_5ecn"]').send_keys(image_url)
+            sleep_very_long()
+            
+            
         try:
             comment_box = WebDriverWait(self.driver, 5).until(
                 EC.element_to_be_clickable(

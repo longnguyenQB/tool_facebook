@@ -8,18 +8,19 @@ url_LT = json.load(f)
 start_time = time.time()
 urls = list(url_LT.values())
 
-auto = AutoFB("hihi")
+auto = AutoFB(username = "nguyenlonglttt@gmail.com",
+              password = "longqblt123")
 driver = auto.open_profile()
 try:
-    auto.login( "nguyenlonglttt@gmail.com", "longqblt123")
+    auto.login()
 except:
     pass
 time.sleep(4)
+auto.logout()
 actions = [
     'story', 'post', 'addfriend', 'post', 'story', 'story', 'post',
     'addfriend', 'addfriend'
 ]
-# actions = ['addfriend', 'addfriend', 'addfriend']
 random.shuffle(actions)
 actions = ['post'] + actions
 num_addfriends = 0
@@ -29,7 +30,7 @@ num_get_urls = 0
 for action in actions:
     # action = random.choice(actions)
     print('############### Action: ', action)
-    action = 'addfriend'
+    # action = 'addfriend'
     if action == 'story':
         num_watch_story = auto.watch_story()
         num_watch_storys += num_watch_story
