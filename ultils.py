@@ -26,6 +26,38 @@ def launchBrowser():
     return driver
 
 
+def login(driver, username, password):
+    driver.find_element(By.XPATH,
+                        '//input[@id="m_login_email"]').send_keys(username)
+    sleep_short()
+    driver.find_element(By.XPATH,
+                        '//input[@id="m_login_password"]').send_keys(password)
+    sleep_short()
+    driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
+    sleep_long()
+    driver.get("https://touch.facebook.com/")
+
+
+def logout(driver):
+    driver.get("https://touch.facebook.com/")
+    time.sleep(5)
+    driver.find_element(
+        By.XPATH, '//div[@class="_59te jewel _hzb noCount _4wrj"]').click()
+    sleep_long()
+    driver.find_element(
+        By.XPATH,
+        '/html/body/div[1]/div/div[4]/div/div/div/div[5]/a/div').click()
+    try:
+        driver.find_element(
+            By.XPATH,
+            '/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/div/a[1]/div/div[2]'
+        ).click()
+        print("Đã log out!")
+        sleep_long()
+    except:
+        pass
+
+
 def choice_reaction():
     list_reaction = ['Thích', 'Yêu thích', 'Thương thương']
     return random.choice(list_reaction)
@@ -46,8 +78,10 @@ def sleep_long():
 def sleep_very_long():
     return time.sleep(random.choice(range(8, 20)))
 
+
 def sleep_very_very_long():
     return time.sleep(random.choice(range(20, 60)))
+
 
 def get_comment_from_post(post_url, cookies_profile):
     post_list = []

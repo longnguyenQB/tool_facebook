@@ -20,17 +20,8 @@ class AutoFB:
         self.driver = profile
         return self.driver
 
-    def login(self):
-        self.driver.find_element(
-            By.XPATH, '//input[@id="m_login_email"]').send_keys(self.username)
-        sleep_short()
-        self.driver.find_element(By.XPATH,
-                                 '//input[@id="m_login_password"]').send_keys(
-                                     self.password)
-        sleep_short()
-        self.driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
-        sleep_long()
-        self.driver.get("https://touch.facebook.com/")
+    def login_fb(self):
+        login(self.driver, self.username, self.password)
 
     def watch_story(self):
         self.driver.get("https://facebook.com/")
@@ -159,63 +150,49 @@ class AutoFB:
             urls.remove(url)
         return urls, num_add, it
 
-    def logout(self):
-        self.driver.find_element(
-            By.XPATH,
-            '//div[@class="_59te jewel _hzb noCount _4wrj"]').click()
-        sleep_short()
-        self.driver.find_element(
-            By.XPATH,
-            '/html/body/div[1]/div/div[4]/div/div/div/div[5]/a/div').click()
-        try:
-            self.driver.find_element(
-                By.XPATH,
-                '/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/div/a[1]/div/div[2]'
-            ).click()
-            print("Đã log out!")
-        except:
-            pass
+    def logout_fb(self):
+        logout(self.driver)
 
 
 class AutoSeedingPostDetail:
-    def __init__(self, username, password, link_seeding):
+    def __init__(self, username, password):
         super().__init__()
         self.username = username
         self.password = password
-        self.link_seeding = link_seeding
 
     def open_profile(self):
         profile = launchBrowser()
         self.driver = profile
         return self.driver
 
-    def login(self):
-        self.driver.find_element(
-            By.XPATH, '//input[@id="m_login_email"]').send_keys(self.username)
-        sleep_short()
-        self.driver.find_element(By.XPATH,
-                                 '//input[@id="m_login_password"]').send_keys(
-                                     self.password)
-        sleep_short()
-        self.driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
-        sleep_long()
-        self.driver.get("https://touch.facebook.com/")
+    def login_fb(self):
+        login(self.driver, self.username, self.password)
 
-    def comment_post(self, comments, image_url):
-        self.driver.get(self.link_seeding)
+    def comment_post(self, link_seeding, comments, image_url):
+        self.driver.get(link_seeding)
         time.sleep(2)
         # Like:
-        self.driver.find_element(By.XPATH, '//a[@class="_15ko _77li touchable"]').click()
+        self.driver.find_element(
+            By.XPATH, '//a[@class="_15ko _77li touchable"]').click()
         sleep_long()
-        if len(image) != 0:
-            self.driver.find_element(By.XPATH, '//a[@class="_5ecn"]').send_keys(image_url)
-            sleep_very_long()
-            
-            
+        # Move to comment:
+        self.driver.find_element(
+            By.XPATH, '/html/body/div[1]/div/div[4]/div/div[1]/div/div/footer/div/div/div[2]/a').click()
+        sleep_long()
+        # Image
+        if len(image_url) != 0:
+            try:
+                self.driver.find_element(
+                    By.XPATH, '//a[@class="_5ecn"]').send_keys(image_url)
+                sleep_very_long()
+            except:
+                self.driver.find_element(
+                    By.XPATH, '//a[@class="_5s61 _2pii"]').send_keys(image_url)
+                sleep_very_long()
         try:
             comment_box = WebDriverWait(self.driver, 5).until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, '//div[@aria-label="Viết bình luận"]')))
+                    (By.XPATH, '//textarea[@class="_uwx mentions-input"]')))
             sleep_short()
         except:
             comment_box = self.driver.find_element(
@@ -230,6 +207,8 @@ class AutoSeedingPostDetail:
         sleep_very_short()
         comment_box.send_keys(" " + comment + Keys.ENTER)
         check_dialog(self.driver)
-
         comments.remove(comment)
         return comments
+
+    def logout_fb(self):
+        logout(self.driver)

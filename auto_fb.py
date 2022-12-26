@@ -4,23 +4,29 @@ import json
 import time
 from ultils import *
 
+# Get url add friends
 f = open("./url_fb/url_LT.json", encoding="utf8")
-data = json.load(f)
+url_LT = json.load(f)
+urls = list(url_LT.values())
+# Get account clone
+f = open("./acc_clone/acc_clone.json", encoding="utf8")
+profile = json.load(f)
 
-profile_name = []
-for profile in profile_name:
+for key in profile.keys():
     start_time = time.time()
-    urls = list(data.values())
-    print('*************************' * 20 + "\n" + str(profile))
-    auto = AutoFB(profile)
+    username , password = key, profile.get(key)
+    auto = AutoFB(username = username,
+                password = password)
     driver = auto.open_profile()
-    auto.login( "nguyenlonglttt@gmail.com", "longqblt123")
-    time.sleep(4)
+    try:
+        auto.login_fb()
+    except:
+        pass
+    time.sleep(5)
     actions = [
         'story', 'post', 'addfriend', 'post', 'story', 'story', 'post',
         'addfriend', 'addfriend'
     ]
-    # actions = ['addfriend', 'addfriend', 'addfriend']
     random.shuffle(actions)
     actions = ['post'] + actions
     num_addfriends = 0
@@ -30,7 +36,7 @@ for profile in profile_name:
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
-        # action = 'addfriend'
+        # action = 'story'
         if action == 'story':
             num_watch_story = auto.watch_story()
             num_watch_storys += num_watch_story
@@ -42,6 +48,7 @@ for profile in profile_name:
             num_addfriends += num_add
             num_get_urls += num_get_url
         sleep_very_very_long()
+    auto.logout_fb()
     print(f'Đã kết bạn với {num_addfriends} người')
     print(f'Đã vào {num_get_urls} link')
     print(f'Đã xem {num_watch_posts} post')
