@@ -56,9 +56,12 @@ class AutoFB:
                     By.XPATH, '//div[@aria-label="Nhóm tiếp theo"]').click()
                 sleep_short()
             except:
-                self.driver.find_element(
-                    By.XPATH, '//div[@aria-label="Thẻ tiếp theo"]').click()
-                sleep_short()
+                try:
+                    self.driver.find_element(
+                        By.XPATH, '//div[@aria-label="Thẻ tiếp theo"]').click()
+                    sleep_short()
+                except:
+                    pass
         self.driver.get("https://facebook.com/")
         return num_watch_story
 
@@ -111,7 +114,7 @@ class AutoFB:
         it = random.choice(range(3, 5))
         random.shuffle(urls)
         num_add = 0
-        while (num_add <= 50):
+        while (num_add <= 50) or (s < len(urls)):
             url = urls[s]
             s += 1
             print('Đã vào link: ', url)
@@ -123,13 +126,18 @@ class AutoFB:
                                                       '//div[@class="_1g06"]')
             elements_post[0].click()
             sleep_short()
-            self.driver.find_element(By.XPATH, '//div[@class="_1g06"]').click()
-            sleep_short()
+            try:
+                self.driver.find_element(By.XPATH, '//div[@class="_1g06"]').click()
+                sleep_short()
+            except:
+                pass
             for _ in range(10):
                 try:
                     self.driver.find_element(
-                        By.XPATH, '//div[@class="title mfsm fcl"]').click()
+                        By.XPATH, '//a[@class="touchable primary"]').click()
+                    sleep_long()
                 except:
+                    print("Không nhấn vào được Xem thêm")
                     pass
             self.driver.execute_script(
                 "document.getElementsByClassName('_54k8 _52jg _56bs _26vk _8yzt _56bu')[0];"
@@ -146,6 +154,7 @@ class AutoFB:
                     num_add += 1
                     print(f"Đã kết bạn với {num_add} người")
                 except:
+                    print("Không click được vào element kết bạn")
                     pass
             urls.remove(url)
         return urls, num_add, it

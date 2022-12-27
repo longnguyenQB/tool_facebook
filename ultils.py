@@ -11,12 +11,12 @@ import re
 
 def launchBrowser():
     chrome_options = Options()
-    # chrome_options.add_argument(
-    #     "user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data"
-    # )
     chrome_options.add_argument(
-        "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
-    chrome_options.add_argument("disable-infobars")
+        "user-data-dir=C:/Users/GroooDev/AppData/Local/Google/Chrome/User Data"
+    )
+    # chrome_options.add_argument(
+    #     "user-data-dir=C:/Users/ADMIN/AppData/Local/Google/Chrome/User Data")
+    # chrome_options.add_argument("disable-infobars")
     chrome_options.add_experimental_option("detach", True)
     chrome_options.add_argument("--incognito")
     # chrome_options.add_argument("--profile-directory=" + profile_name )
@@ -27,6 +27,8 @@ def launchBrowser():
 
 
 def login(driver, username, password):
+    driver.get("https://touch.facebook.com/")
+    sleep_long()
     driver.find_element(By.XPATH,
                         '//input[@id="m_login_email"]').send_keys(username)
     sleep_short()

@@ -11,10 +11,10 @@ urls = list(url_LT.values())
 # Get account clone
 f = open("./acc_clone/acc_clone.json", encoding="utf8")
 profile = json.load(f)
-
-for key in profile.keys():
+for key in profile[0].keys():
     start_time = time.time()
-    username , password = key, profile.get(key)
+    print("*"*20 + "Login vào ",key)
+    username , password = key, profile[0].get(key)
     auto = AutoFB(username = username,
                 password = password)
     driver = auto.open_profile()
@@ -36,7 +36,7 @@ for key in profile.keys():
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
-        # action = 'story'
+        action = 'addfriend'
         if action == 'story':
             num_watch_story = auto.watch_story()
             num_watch_storys += num_watch_story
