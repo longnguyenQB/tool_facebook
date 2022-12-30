@@ -114,7 +114,9 @@ class AutoFB:
         it = random.choice(range(3, 5))
         random.shuffle(urls)
         num_add = 0
-        while (num_add <= 50) or (s < len(urls)):
+        while s<it:
+            if (s>=len(urls)):
+                break
             url = urls[s]
             s += 1
             print('Đã vào link: ', url)
@@ -124,8 +126,12 @@ class AutoFB:
             sleep_short()
             elements_post = self.driver.find_elements(By.XPATH,
                                                       '//div[@class="_1g06"]')
-            elements_post[0].click()
-            sleep_short()
+            try:
+                elements_post[0].click()
+                sleep_short()
+            except:
+                print("Không nhấn được vào thanh hiển thị số người reaction.")
+                pass
             try:
                 self.driver.find_element(By.XPATH, '//div[@class="_1g06"]').click()
                 sleep_short()
@@ -149,6 +155,8 @@ class AutoFB:
             print(len(elements_addfriend))
             for element_addfriend in elements_addfriend:
                 try:
+                    if (num_add >50):
+                        break
                     element_addfriend.click()
                     sleep_short()
                     num_add += 1
@@ -227,6 +235,47 @@ class AutoSeedingPostDetail:
             
         check_dialog(self.driver)
         return comments
+
+    def logout_fb(self):
+        logout(self.driver)
+        
+class AutoCreateFanpage:
+    def __init__(self, username, password):
+        super().__init__()
+        self.username = username
+        self.password = password
+
+    def open_profile(self):
+        profile = launchBrowser()
+        self.driver = profile
+        return self.driver
+
+    def login_fb(self):
+        login(self.driver, self.username, self.password)
+
+    def create_fanpage(self):
+        self.driver.get("https://facebook.com/pages/?category=top&ref=bookmarks")
+        time.sleep(2)
+        # Nhấn tạo trang:
+        self.driver.find_element(
+            By.XPATH, '//div[@class="x1n2onr6 x1ja2u2z x78zum5 x2lah0s xl56j7k x6s0dn4 xozqiw3 x1q0g3np xi112ho x17zwfj4 x585lrc x1403ito x972fbf xcfux6l x1qhh985 xm0m39n x9f619 xn6708d x1ye3gou x1hr4nm9 x1r1pt67"]').click()
+        sleep_short()
+        # Nhập tên trang
+        element = self.driver.switch_to.active_element
+        element.send_keys("Đây là tên page")
+        sleep_short()
+        element = self.driver.switch_to.active_element
+        # Nhập hạng mục
+        element.send_keys(Keys.TAB + Keys.TAB + "a")
+        sleep_short()
+        self.driver.find_element(
+            By.XPATH, '//div[@class="x1i10hfl x1qjc9v5 xjbqb8w xjqpnuy xa49m3k xqeqjp1 x2hbi6w x13fuv20 xu3j5b3 x1q0q8m5 x26u7qi x972fbf xcfux6l x1qhh985 xm0m39n x9f619 x1ypdohk xdl72j9 x2lah0s xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r x2lwn1j xeuugli xexx8yu x4uap5 x18d9i69 xkhd6sd x1n2onr6 x16tdsg8 x1hl2dhg xggy1nq x1ja2u2z x1t137rt x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x1q0g3np x87ps6o x1lku1pv x78zum5 x1a2a7pz xh8yej3"]').click()
+        
+        sleep_long()
+        # Nhấn tạo:
+        WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//a[@aria-label="Tạo Trang"]'))).click()
 
     def logout_fb(self):
         logout(self.driver)

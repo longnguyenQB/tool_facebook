@@ -25,7 +25,7 @@ for key in profile[0].keys():
     time.sleep(5)
     actions = [
         'story', 'post', 'addfriend', 'post', 'story', 'story', 'post',
-        'addfriend', 'addfriend'
+        'addfriend'
     ]
     random.shuffle(actions)
     actions = ['post'] + actions
@@ -36,7 +36,7 @@ for key in profile[0].keys():
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
-        action = 'addfriend'
+        # action = 'addfriend'
         if action == 'story':
             num_watch_story = auto.watch_story()
             num_watch_storys += num_watch_story
