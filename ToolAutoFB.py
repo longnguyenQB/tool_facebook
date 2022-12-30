@@ -31,9 +31,23 @@ class AutoFB:
             By.XPATH,
             '//div[@class="x1g0ag68 xx6bhzk x11xpdln xcj1dhv x1ey2m1c x9f619 xds687c x10l6tqk x17qophe x13vifvy"]'
         ).click()
+        sleep_long()
+        #FB hiện thông báo Bạn đang xem tin, nhấn enter để bỏ thông báo đó đi
+        self.driver.switch_to.active_element.send_keys(Keys.ENTER)
+        sleep_short()
+        try:
+            #Click vào story đầu tiên:
+            self.driver.find_element(
+                By.XPATH,
+                '//div[@class="x1g0ag68 xx6bhzk x11xpdln xcj1dhv x1ey2m1c x9f619 xds687c x10l6tqk x17qophe x13vifvy"]'
+            ).click()
+            sleep_long()
+        except:
+            print("Không vào được xem story")
+            
         tmp = 0
         #Chọn xem bao nhiêu story:
-        num_watch_story = random.choice(range(3, 8))
+        num_watch_story = random.choice(range(4, 10))
         for _ in range(num_watch_story):
             tmp += 1
             print('_____________', tmp)
@@ -270,8 +284,9 @@ class AutoCreateFanpage:
         sleep_short()
         self.driver.find_element(
             By.XPATH, '//div[@class="x1i10hfl x1qjc9v5 xjbqb8w xjqpnuy xa49m3k xqeqjp1 x2hbi6w x13fuv20 xu3j5b3 x1q0q8m5 x26u7qi x972fbf xcfux6l x1qhh985 xm0m39n x9f619 x1ypdohk xdl72j9 x2lah0s xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r x2lwn1j xeuugli xexx8yu x4uap5 x18d9i69 xkhd6sd x1n2onr6 x16tdsg8 x1hl2dhg xggy1nq x1ja2u2z x1t137rt x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x1q0g3np x87ps6o x1lku1pv x78zum5 x1a2a7pz xh8yej3"]').click()
-        
         sleep_long()
+        element = self.driver.switch_to.active_element
+        
         # Nhấn tạo:
         WebDriverWait(self.driver, 5).until(
                 EC.element_to_be_clickable(

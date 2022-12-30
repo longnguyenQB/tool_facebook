@@ -36,7 +36,7 @@ for key in profile[0].keys():
     for action in actions:
         # action = random.choice(actions)
         print('############### Action: ', action)
-        # action = 'addfriend'
+        # action = 'story'
         if action == 'story':
             num_watch_story = auto.watch_story()
             num_watch_storys += num_watch_story
