@@ -144,7 +144,6 @@ class AutoFB:
                 elements_post[0].click()
                 sleep_short()
             except:
-                print("Không nhấn được vào thanh hiển thị số người reaction.")
                 pass
             try:
                 self.driver.find_element(By.XPATH, '//div[@class="_1g06"]').click()

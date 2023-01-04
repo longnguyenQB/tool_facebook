@@ -122,3 +122,19 @@ def check_dialog(driver):
         print('Bỏ qua dialog')
     except:
         pass
+    
+# Vẽ frame message
+def _one_frame(text):                 # text is supposed to be a list of lines
+    lt = len(text[0])
+    horz = '+' + '-'*lt + '+'         # Make the horizontal line +-------+
+    result = [horz]                   # Top of the frame
+    for line in text:
+        result.append( '|'+line+'|' ) # Add the borders for each line
+    result.append(horz)               # Bottom of the frame
+    return result
+
+def frame(text, repeat, thickness):
+    text = [" %s "%text]*repeat       # add spaces and repeat as a list
+    for i in range(thickness):
+        text = _one_frame(text)       # draw one frame per iteration
+    return '\n'.join(text)            # join lines

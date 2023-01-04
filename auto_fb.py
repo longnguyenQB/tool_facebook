@@ -13,7 +13,7 @@ f = open("./acc_clone/acc_clone.json", encoding="utf8")
 profile = json.load(f)
 for key in profile[0].keys():
     start_time = time.time()
-    print("*"*20 + "Login vào ",key)
+    print(frame("Login vào "+ key, 1, 3))
     username , password = key, profile[0].get(key)
     auto = AutoFB(username = username,
                 password = password)
