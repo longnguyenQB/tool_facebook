@@ -15,18 +15,18 @@ import time
 f = open("./url_fb/url_LT.json", encoding="utf8")
 url_LT = json.load(f)
 link_seedings = list(url_LT.values())
-link_seedings = ['https://touch.facebook.com/groups/trongnhangoaipholethuy/posts/1279780325912391/']
+link_seedings = ['https://touch.facebook.com/groups/genzlethuy/posts/1106535606682892/']
 
 with open('./comment_sample.txt', 'r', encoding="utf8") as f:
         comments = [word[:-1] for word in f]
-image_url = "C:/Users/ADMIN/OneDrive/Máy tính/meme/88230741_1117999938538614_7524874619187101696_n.jpg"
+image_url = ""
 # Get account clone
 f = open("./acc_clone/acc_clone.json", encoding="utf8")
 profile = json.load(f)
 
-for key in profile.keys():
+for key in profile[0].keys():
     start_time = time.time()
-    username , password = key, profile.get(key)
+    username , password = key, profile[0].get(key)
     auto = AutoSeedingPostDetail(username = username,
                 password = password)
     driver = auto.open_profile()

@@ -3,6 +3,7 @@ import random
 import json
 import time
 from ultils import *
+from threading import Thread, Barrier
 
 # Get url add friends
 f = open("./url_fb/url_LT.json", encoding="utf8")
