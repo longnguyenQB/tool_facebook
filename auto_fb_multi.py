@@ -50,11 +50,11 @@ def autofb4multile(username, password):
             num_get_urls += num_get_url
         sleep_very_very_long()
     auto.logout_fb()
-    print(f'Đã kết bạn với {num_addfriends} người')
-    print(f'Đã vào {num_get_urls} link')
-    print(f'Đã xem {num_watch_posts} post')
-    print(f'Đã xem {num_watch_storys} stories')
-    print('Thời gian chạy: ', (time.time() - start_time) / 60)
+    print(f'{username} Đã kết bạn với {num_addfriends} người')
+    print(f'{username} Đã vào {num_get_urls} link')
+    print(f'{username} Đã xem {num_watch_posts} post')
+    print(f'{username} Đã xem {num_watch_storys} stories')
+    print(f'{username} Thời gian chạy: ', (time.time() - start_time) / 60)
     driver.close()
 
 
@@ -62,7 +62,7 @@ def autofb4multile(username, password):
 f = open("./acc_clone/acc_clone.json", encoding="utf8")
 profile = json.load(f)
 
-number_of_threads = 4
+number_of_threads = 8
 
 if __name__ == "__main__":
     threads = []
@@ -70,8 +70,8 @@ if __name__ == "__main__":
         for i in range(number_of_threads):
             username = list(profile[session].keys())[i]
             password = profile[session].get(list(profile[session].keys())[i])
-            threads.append(Thread(target=autofb4multile, args=[username,
-                                                            password]))
+            threads.append(Thread(target=autofb4multile, args=(username,
+                                                            password,)))
         for thread in threads:
             thread.start()
         for thread in threads:

@@ -43,26 +43,27 @@ class AutoFB:
             ).click()
             sleep_long()
         except:
-            print("Không vào được xem story")
+            # print("Không vào được xem story")
+            pass
             
         tmp = 0
         #Chọn xem bao nhiêu story:
         num_watch_story = random.choice(range(4, 10))
         for _ in range(num_watch_story):
             tmp += 1
-            print('_____________', tmp)
+            print(self.username,'_____________', tmp)
             if random.choice(['reaction', 'no']) == 'reaction':
                 reaction = choice_reaction()
                 sleep_long()  #Xem story
                 #Chọn reaction bao nhiêu lần
                 for _ in range(random.choice(range(1, 7))):
-                    print('_________________________________ ', reaction)
+                    print(self.username,'_________________________________ ', reaction)
                     try:
                         self.driver.find_element(
                             By.XPATH,
                             '//div[@aria-label="' + reaction + '"]').click()
                     except:
-                        print("Không tìm được element thả reaction")
+                        # print("Không tìm được element thả reaction")
                         pass
             sleep_short()
             try:
@@ -90,35 +91,35 @@ class AutoFB:
             comment = random.choice(['comment', 'no', '1', '2', '3'])
             open_post = random.choice(['open', 'no'])
             sleep_very_long()
-            print('__________________Lần xem post thứ: ', i)
+            print(self.username,'__________________Lần xem post thứ: ', i)
             if (reaction == 'reaction') & (comment == 'comment') & (open_post
                                                                     == 'open'):
                 # element1 = driver.switch_to.active_element
                 # Func = open("tmp.html", "w", encoding="utf-8")
                 # Func.write(element1.get_attribute('innerHTML'))
                 # Func.close()
-                print('reaction + comment + open post')
+                # print('reaction + comment + open post')
                 element.send_keys(Keys.ESCAPE + "j" + 'l' + Keys.ARROW_RIGHT *
                                   random.choice(range(1, 3)) + Keys.ENTER +
                                   'o')
             if (reaction == 'reaction') & (comment == 'comment') & (open_post
                                                                     != 'open'):
-                print('reaction + comment')
+                # print('reaction + comment')
                 element.send_keys(Keys.ESCAPE + "j" + 'l' + Keys.ARROW_RIGHT *
                                   random.choice(range(1, 3)))
             elif (reaction == 'reaction') & (comment != 'comment'):
-                print('reaction')
+                # print('reaction')
                 element.send_keys(Keys.ESCAPE + "j" + 'l' + Keys.ARROW_RIGHT *
                                   random.choice(range(1, 3)) + Keys.ENTER)
                 element = self.driver.find_element(By.TAG_NAME, "body")
             elif (reaction !=
                   'reaction') & (comment != 'comment') & (open_post == 'open'):
-                print('just open post')
+                # print('just open post')
                 element.send_keys(Keys.ESCAPE +
                                   "j" * random.choice(range(1, 4)) + "o")
             elif (reaction !=
                   'reaction') & (comment != 'comment') & (open_post != 'open'):
-                print('no action')
+                # print('no action')
                 element.send_keys(Keys.ESCAPE +
                                   "j" * random.choice(range(1, 4)))
         return num_watch_post
@@ -133,7 +134,7 @@ class AutoFB:
                 break
             url = urls[s]
             s += 1
-            print('Đã vào link: ', url)
+            print(self.username, 'Đã vào link: ', url)
             self.driver.get(url)
             sleep_very_long()
             self.driver.find_element(By.TAG_NAME, "body")
@@ -156,7 +157,7 @@ class AutoFB:
                         By.XPATH, '//a[@class="touchable primary"]').click()
                     sleep_long()
                 except:
-                    print("Không nhấn vào được Xem thêm")
+                    # print("Không nhấn vào được Xem thêm")
                     pass
             self.driver.execute_script(
                 "document.getElementsByClassName('_54k8 _52jg _56bs _26vk _8yzt _56bu')[0];"
@@ -173,9 +174,9 @@ class AutoFB:
                     element_addfriend.click()
                     sleep_short()
                     num_add += 1
-                    print(f"Đã kết bạn với {num_add} người")
+                    print(self.username, f"Đã kết bạn với {num_add} người")
                 except:
-                    print("Không click được vào element kết bạn")
+                    # print("Không click được vào element kết bạn")
                     pass
             urls.remove(url)
         return urls, num_add, it
@@ -205,7 +206,7 @@ class AutoSeedingPostDetail:
         try:
             self.driver.find_element(
                 By.XPATH, '//a[@class="_15ko _77li touchable"]').click()
-            print("Đã like post")
+            # print("Đã like post")
         except:
             pass
         sleep_long()
