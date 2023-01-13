@@ -239,7 +239,7 @@ class AutoSeedingPostDetail:
         comment = random.choice(comments)
         comments.remove(comment)
         comment = re.sub(
-            '[^a-zA-Z0-9áàảãạâấầẩẫậăắằẳẵặóòỏõọôốồổỗộơớờởỡợéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịýỳỷỹỵđ,.:)=]',
+            '[^a-zA-Z0-9áàảãạâấầẩẫậăắằẳẵặóòỏõọôốồổỗộơớờởỡợéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịýỳỷỹỵđ,.:)=](',
             ' ', comment)
         print(comment)
         comment_box.click()

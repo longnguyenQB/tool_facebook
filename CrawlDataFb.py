@@ -16,6 +16,6 @@ def get_post(post_urls, cookies_profile):
     with open("post_in4", "wb") as fp:   #Pickling
         pickle.dump(post_list, fp)
     return post_list, list_comment, list_commenter_url
-post_urls = "https://www.facebook.com/UTE.Confession/posts/524410909725732"
-cookies_profile = "./Cookies/facebook.com_cookies.txt"
+post_urls = "https://www.facebook.com/groups/phongthutoibeatvn/posts/6088945121168909/"
+cookies_profile = "C:/Users/ADMIN/OneDrive/Máy tính/FreeLancer/Tool/tool_facebook/Cookies/GiaMinhNgo.txt"
 get_post(post_urls, cookies_profile)

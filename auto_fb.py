@@ -29,7 +29,7 @@ for key in profile[0].keys():
         'addfriend'
     ]
     random.shuffle(actions)
-    actions = ['post'] + actions
+    actions = ['story'] + actions
     num_addfriends = 0
     num_watch_posts = 0
     num_watch_storys = 0
