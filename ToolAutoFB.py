@@ -7,8 +7,8 @@ from ultils import *
 import time
 import random
 import json
-
-
+import pyperclip
+from threading import Thread
 class AutoFB:
     def __init__(self, username, password):
         super().__init__()
@@ -298,3 +298,77 @@ class AutoCreateFanpage:
 
     def logout_fb(self):
         logout(self.driver)
+class Login_2fa():
+    def __init__(self, username, password, fa):
+        super().__init__()   
+        self.username = username
+        self.password = password
+        self.fa = fa
+    def open_profile(self):
+        profile = launchBrowser()
+        self.driver = profile
+        return self.driver
+    def get_2facode(self):
+        self.driver.get("https://2fa.live")
+        sleep_very_long()
+        self.driver.find_element(
+                    By.XPATH, '//textarea[@class="form-control"]').send_keys(self.fa)
+        sleep_short()
+        self.driver.find_element(
+                    By.XPATH, '//a[@id="submit"]').click()
+        # result = self.driver.find_element(
+        #             By.XPATH, '//textarea[@id="output"]').get_attribute()
+        sleep_short()
+        self.driver.find_element(
+                    By.XPATH, '//a[@id="copy_btn"]').click()
+        code = pyperclip.paste()
+        code = code.split("|")[-1]
+        print("code: ",code)
+        return code
+    def login_2facode(self, code):
+        self.driver.get("https://touch.facebook.com/")
+        sleep_long()
+        self.driver.find_element(By.XPATH,
+                            '//input[@id="m_login_email"]').send_keys(self.username)
+        sleep_short()
+        self.driver.find_element(By.XPATH,
+                            '//input[@id="m_login_password"]').send_keys(self.password)
+        sleep_short()
+        try:
+            self.driver.find_element(By.XPATH, '//button[@value="Đăng nhập"]').click()
+        except:
+            self.driver.find_element(By.XPATH, '//button[@value="Log In"]').click()
+        sleep_long()
+        self.driver.find_element(By.XPATH,
+                            '//input[@id="approvals_code"]').send_keys(code)
+        self.driver.find_element(By.XPATH, '//button[@type="submit"]').click()
+        print("Đã login vào facebook")
+        
+        
+        
+        
+
+class Multi_process():
+    def __init__(self, acc_clones, num_threads, action):
+        super().__init__()
+        self.acc_clones = acc_clones
+        self.num_threads = num_threads
+        self.action = action
+    def start_multi(self):
+        threads = []
+        session = []
+        num_sessions = (len(self.acc_clones) // self.num_threads) + 1 if len(self.acc_clones)%self.num_threads !=0 else len(self.acc_clones)/self.num_threads
+
+        for _ in range(int(num_sessions)):
+            session.append(self.acc_clones[:self.num_threads])
+            self.acc_clones = self.acc_clones[self.num_threads:]
+            
+        for acc_in_session in session:
+            for i in range(len(acc_in_session)):
+                username , password, fa = acc_in_session[i].split("|")
+                threads.append(Thread(target=self.action, args=(username,
+                                                                password,fa,)))
+            for thread in threads:
+                thread.start()
+            for thread in threads:
+                thread.join()

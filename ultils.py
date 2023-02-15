@@ -19,7 +19,7 @@ def launchBrowser():
     chrome_options.add_experimental_option("detach", True)
     chrome_options.add_argument("--incognito")
     # chrome_options.add_argument("--profile-directory=" + profile_name )
-    chrome_options.add_argument("--window-size=700,700")
+    chrome_options.add_argument("--window-size=300,300")
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get("https://touch.facebook.com/")
     return driver
